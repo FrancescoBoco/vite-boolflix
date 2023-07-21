@@ -55,73 +55,12 @@ export default {
        return 'https://image.tmdb.org/t/p/original' + Tv
     },
     averageVote(vote){
-        vote = Math.ceil(vote / 2)
-        if(vote == 0){
-            vote = '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'
-        return vote
-    }},
-    averageVote(vote){
-        vote = Math.ceil(vote / 2)
-        if(vote == 1){
-            vote = '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'
-        return vote
-    }},
-    averageVote(vote){
-        vote = Math.ceil(vote / 2)
-        if(vote == 2){
-            vote = 
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'
-        return vote
-    }},
-    averageVote(vote){
-        vote = Math.ceil(vote / 2)
-        if(vote == 3){
-            vote = 
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-regular fa-star"></i>'+
-            '<i class="fa-regular fa-star"></i>'
-        return vote
-    }},
-    averageVote(vote){
-        vote = Math.ceil(vote / 2)
-        if(vote == 4){
-            vote = 
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-regular fa-star"></i>'
-        return vote
-    }},
-    averageVote(vote){
-        vote = Math.ceil(vote / 2)
-        if(vote == 5){
-            vote = 
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'+
-            '<i class="fa-solid fa-star" style="color: #ffe45c;"></i>'
-        return vote
-    }}
-  },
-  props: {
-  }
-}
+        return vote = Math.ceil(vote / 2)
+    },
+    emptyVote(vote){
+        return vote = Math.ceil(4 - (vote / 2))
+    }
+}}
 </script>
 
 <template>
@@ -146,12 +85,21 @@ export default {
                     <img :src="getFlag(movie.original_language)" :alt="store.original_language">
                     {{  }}
                 </div> 
-                <div v-html="averageVote(movie.vote_average)">
+                <!-- <div v-html="averageVote(movie.vote_average)">
                     
+                </div> -->
+                <div >
+                    <span v-for="numero in averageVote(movie.vote_average)" :key="numero">
+                        <i class="fa-solid fa-star" style="color: #ffd877;"></i>
+                    </span>
+                    <span v-for="numero in emptyVote(movie.vote_average)" :key="numero">
+                        <i class="fa-regular fa-star"></i>
+                    </span>
                 </div>
+
                 <div>
                     <img id="post-film" :src="getPsot(movie.poster_path)" alt="">
-                    {{ }}
+                    
                 </div>
                 <hr>
             </div>
