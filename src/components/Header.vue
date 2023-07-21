@@ -11,10 +11,21 @@ export default {
     }
   },
   methods: {
+getPopularMovies(){
+    axios.get(`https://api.themoviedb.org/3/discover/movie?certification=popular`, {
+      params:{
+        api_key: '21113d2a59214cb58de84d087e9a0b2d',
+      }
+        }).then(response => {
+          console.log(response.data)
+          this.store.movies = response.data.results
+      })
+    },
+   
     search(){
       console.log(this.store.searchText)
 
-    axios.get(`https://api.themoviedb.org/3/search/movie`, {
+      axios.get(`https://api.themoviedb.org/3/search/movie`, {
       params:{
         api_key: '21113d2a59214cb58de84d087e9a0b2d',
         query: this.store.searchText
@@ -33,118 +44,43 @@ export default {
           this.store.series = response.data.results
       });
     },
-
-    getFlag(flag){
-      if(flag == 'it'){
-        return "https://flagicons.lipis.dev/flags/4x3/it.svg"
-      }else if (flag == 'en'){
-        return "https://flagicons.lipis.dev/flags/4x3/gb.svg"
-      }else if (flag == 'ja'){
-        return "https://flagicons.lipis.dev/flags/4x3/jp.svg"
-      }
-      else{
-        return `https://flagicons.lipis.dev/flags/4x3/xx.svg`
-      }
-    },
-
-    getPsot(post){
-       return 'https://image.tmdb.org/t/p/original' + post
-    },
-
-    getTv(Tv){
-       return 'https://image.tmdb.org/t/p/original' + Tv
-    },
-    averageVote(vote){
-        return vote = Math.ceil(vote / 2)
-    },
-    emptyVote(vote){
-        return vote = Math.ceil(4 - (vote / 2))
-    }
-}}
+},
+created(){
+    this.getPopularMovies()
+}
+}
 </script>
 
 <template>
-  <input v-model="store.searchText" type="text" placeholder="scrivi il titolo ">
-  <button @click="search()">Cerca</button>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2>
-                    Film
-                </h2>
-            </div>
-            <div class="col-4" v-for="(movie, i) in store.movies" :key="i"> 
-                
-                <div>
-                    {{ movie.title }}
-                </div> 
-                <div>
-                    {{ movie.original_title}}
-                </div> 
-                <div>
-                    <img :src="getFlag(movie.original_language)" :alt="store.original_language">
-                    {{  }}
-                </div> 
-                <!-- <div v-html="averageVote(movie.vote_average)">
-                    
-                </div> -->
-                <div >
-                    <span v-for="numero in averageVote(movie.vote_average)" :key="numero">
-                        <i class="fa-solid fa-star" style="color: #ffd877;"></i>
-                    </span>
-                    <span v-for="numero in emptyVote(movie.vote_average)" :key="numero">
-                        <i class="fa-regular fa-star"></i>
-                    </span>
-                </div>
+<div class="wrapper">
 
-                <div>
-                    <img id="post-film" :src="getPsot(movie.poster_path)" alt="">
-                    
-                </div>
-                <hr>
-            </div>
-        </div>
-    </div>
-          <hr>
+
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2>
-                    Series
-                </h2>
+        <div class="row  justify-content-between">
+            <div class="col-auto logo ">
+                <img src="https://cineguru.screenweek.it/wp-content/uploads/2021/01/netflix-logo.jpg" alt="">
             </div>
-            <div class="col-4" v-for="(serie, i) in store.series" :key="i"> 
-                
-                <div>
-                    {{ serie.name }}
-                </div> 
-                <div>
-                    {{ serie.original_name }}
-                </div> 
-                <div>
-                    <img :src="getFlag(serie.original_language)" :alt="store.original_language">
-                    {{  }}
-                </div> 
-                <div>
-                    {{ serie.vote_average}}
-                </div>
-                <div>
-                    <img id="post-film" :src="getTv(serie.poster_path)" alt="">
-                    {{ }}
-                </div>
+            <div class="col-auto">
+                <input v-model="store.searchText" type="text" placeholder="scrivi il titolo ">
+                <button @click="search()">Cerca</button>
             </div>
-            
         </div>
     </div>
+</div>
+   
         
 </template>
 
 
-<style>
+<style lang="scss" scoped >
+.wrapper{
+    background-color: #141414;
+}
+.logo{
+  width: 100px;
+}
 img{
-  width: 30px;
+  width: 100px;
 }
-#post-film{
-    width:200px;
-}
+
 </style>
